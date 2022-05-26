@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "@fastify/cors": "^7.0.0",
+    "fastify": "^3.29.0"
+  },
+  "name": "rpi-zerow-autokeyboard",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/al20ov/rpi-zerow-autokeyboard.git"
+  },
+  "author": "al20ov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/al20ov/rpi-zerow-autokeyboard/issues"
+  },
+  "homepage": "https://github.com/al20ov/rpi-zerow-autokeyboard#readme",
+  "description": ""
+}

@@ -1,7 +1,54 @@
-// Proof of concept file containing no network code and nothing related to the
-// actual API and application
-
+const os = require("os");
 const fs = require("fs");
+
+const fastify = require("fastify")({
+  logger: true,
+});
+
+// TODO: remove all cors related stuff before releasing
+fastify.register(require("@fastify/cors"), {});
+
+fastify.get("/", function (request, reply) {
+  reply.send({ hello: "world" });
+});
+
+fastify.get("/memory", function (_, reply) {
+  reply.send({ free: os.freemem(), total: os.totalmem() });
+});
+
+fastify.post("/write", async function (request, reply) {
+  const { text, initialDelay, interval } = request.body;
+
+  await sleep(1000);
+  await writeString(text);
+  reply.send({ success: true });
+});
+
+fastify.listen(8080, "::", function (err, _) {
+  if (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+});
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 const file = "/dev/hidg0";
 
 const leftShift = 0x02;
@@ -45,18 +92,15 @@ function asciiToHidReport(character) {
   ]);
 }
 
-const testString =
-  "Hello World\nThis is a test string\nThe raspberry pi should act as a keyboard now\n";
-
 const delayMs = 2;
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-async function writeString() {
-  for (let i = 0; i < testString.length; i++) {
-    const charBuffer = asciiToHidReport(testString[i]);
+async function writeString(buffer) {
+  for (let i = 0; i < buffer.length; i++) {
+    const charBuffer = asciiToHidReport(buffer[i]);
 
     await sleep(delayMs);
     fs.writeFileSync(file, charBuffer);
@@ -64,5 +108,3 @@ async function writeString() {
     fs.writeFileSync(file, clear);
   }
 }
-
-writeString();
